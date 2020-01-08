@@ -1,58 +1,67 @@
 import React, { Component } from 'react';
-import { arrayIncludes, getLegalMoves, isLight } from './utils';
+import Board from './Board';
+import { STARTING_SQUARE } from './constants';
+import { isLight } from './utils';
 import './App.css';
-
-const STARTING_SQUARE = 2;
-const board = [];
-
-for (let i = 0; i < 64; i++) {
-  board.push({
-    colour: isLight(i) ? 'white' : 'black',
-    visited: i === STARTING_SQUARE,
-    currentSquare: i === STARTING_SQUARE,
-    squareNumber: i,
-    highlighted: false
-  });
-}
-
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentKnightPosition: STARTING_SQUARE
+    this.state = this.initGame();
+  }
+
+  initBoard(startingSquare) {
+    const board = [];
+    for (let i = 0; i < 64; i++) {
+      board.push({
+        colour: isLight(i) ? 'white' : 'black',
+        visited: i === startingSquare,
+        currentSquare: i === startingSquare,
+        squareNumber: i,
+        highlighted: false
+      });
     }
+    return board;
+  }
+
+  initGame() {
+    return {
+      numMoves: 0,
+      moves: [],
+      currentKnightPosition: STARTING_SQUARE,
+      board: this.initBoard(STARTING_SQUARE)
+    };
   }
 
   handleSquareClick = (isLegalMove, square) => () => {
     if (isLegalMove) {
+      const board = JSON.parse(JSON.stringify(this.state.board));
       board[square].visited = true;
       this.setState({
-        currentKnightPosition: square
+        currentKnightPosition: square,
+        board: [...board]
       });
     }
   }
 
+  resetGame() {
+    const newGame = this.initGame();
+    this.setState(newGame);
+  }
+
   render() {
-    let knightPos = this.state.currentKnightPosition;
-    const legalMoves = getLegalMoves(knightPos);
-    return <div className="App">
-      <div className="chessboard">
-        {board.map(square => {
-          const isLegalMove = !square.visited && arrayIncludes(legalMoves, square.squareNumber);
-          const className = `${square.colour} ${isLegalMove ? 'potential' : ''} ${square.visited ? 'visited' : ''}`
-          return (
-            <div
-              onClick={this.handleSquareClick(isLegalMove, square.squareNumber)}
-              key={square.squareNumber}
-              className={className}
-            >
-              {square.squareNumber === knightPos && <span>&#9822;</span>}
-            </div>
-          )
-        })}
+    return (
+      <div className="App">
+        <Board
+          handleSquareClick={this.handleSquareClick}
+          knightPos={this.state.currentKnightPosition}
+          board={this.state.board}
+        />
+        <div>
+          <button onClick={this.resetGame.bind(this)}>Reset</button>
+        </div>
       </div>
-    </div>
+    )
   }
 }
 
