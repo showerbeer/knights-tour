@@ -1,7 +1,12 @@
+.App {
+  padding: 10px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 .chessboard {
   width: 640px;
   height: 640px;
-  margin: 20px;
   border: 25px solid #333;
 }
 
@@ -30,4 +35,8 @@
 
 .visited {
   background-color: grey;
+}
+
+button {
+  margin: 5px 10px;
 }

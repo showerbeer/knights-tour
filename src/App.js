@@ -10,6 +10,13 @@ class App extends Component {
     this.state = this.initGame();
   }
 
+  componentDidMount(){
+    document.addEventListener('keyup', this.handleKeyUp(this), false);
+  }
+  componentWillUnmount(){
+    document.removeEventListener('keyup', this.handleKeyUp(this), false);
+  }
+
   initBoard(startingSquare) {
     const board = [];
     for (let i = 0; i < 64; i++) {
@@ -45,19 +52,35 @@ class App extends Component {
       });
     }
   }
+  
+  undo() {
+    if(this.state.numMoves > 0) {
+      const prevSquare = this.state.moves[this.state.moves.length - 2];
+      const board = JSON.parse(JSON.stringify(this.state.board));
+      const moves = [...this.state.moves];
+      moves.pop();
+      board[this.state.currentSquare].visited = false;
+      this.setState({
+        board,
+        currentSquare: prevSquare,
+        moves,
+        numMoves: this.state.numMoves - 1
+      })
+    }
+  }
 
   handleUndoClick() {
-    const prevSquare = this.state.moves[this.state.moves.length - 2];
-    const board = JSON.parse(JSON.stringify(this.state.board));
-    const moves = [...this.state.moves];
-    moves.pop();
-    board[this.state.currentSquare].visited = false;
-    this.setState({
-      board,
-      currentSquare: prevSquare,
-      moves,
-      numMoves: this.state.numMoves - 1
-    })
+    this.undo();
+  }
+
+  handleKeyUp = (context) => (e) => {
+    if(e.key === 'z' && e.ctrlKey) {
+      context.undo();
+    } else if(e.key === 'r' && e.ctrlKey && e.altKey) {
+      this.resetGame();
+    } else if(e.keyCode >= 49 && e.key <= 56) {
+      // handle keypress of 1-8 for selecting squares
+    }
   }
 
   resetGame() {
@@ -69,15 +92,15 @@ class App extends Component {
     return (
       <div className="App">
         <span>Moves: {this.state.numMoves}</span>
+        <button onClick={this.handleUndoClick.bind(this)} disabled={this.state.numMoves < 1}>Undo</button>
+        <span>(Ctrl+z)</span>
+        <button onClick={this.resetGame.bind(this)}>Reset</button>
+        <span>(Ctrl+Alt+R)</span>
         <Board
           handleSquareClick={this.handleSquareClick}
           knightPos={this.state.currentSquare}
           board={this.state.board}
         />
-        <div>
-          <button onClick={this.handleUndoClick.bind(this)} disabled={this.state.numMoves < 1}>Undo</button>
-          <button onClick={this.resetGame.bind(this)}>Reset</button>
-        </div>
       </div>
     )
   }

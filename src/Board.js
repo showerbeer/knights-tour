@@ -5,6 +5,7 @@ import { arrayIncludes, getLegalMoves } from './utils';
 const Board = (props) => {
   const { board, knightPos, handleSquareClick } = props;
   const legalMoves = getLegalMoves(knightPos);
+  let legalMove = 0;
   return (
     <div className="chessboard">
       {board.map(square => {
@@ -17,6 +18,7 @@ const Board = (props) => {
             className={className}
           >
             {square.squareNumber === knightPos && <span>&#9822;</span>}
+            {isLegalMove && ++legalMove}
           </div>
         )
       })}
