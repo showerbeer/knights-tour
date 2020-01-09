@@ -9,7 +9,7 @@ const Board = (props) => {
     <div className="chessboard">
       {board.map(square => {
         const isLegalMove = !square.visited && arrayIncludes(legalMoves, square.squareNumber);
-        const className = `${square.colour} ${isLegalMove ? 'potential' : ''} ${square.visited ? 'visited' : ''}`
+        const className = `square ${square.visited ? 'visited' : square.colour} ${isLegalMove && 'potential'}`
         return (
           <div
             onClick={handleSquareClick(isLegalMove, square.squareNumber)}

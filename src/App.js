@@ -26,10 +26,10 @@ class App extends Component {
 
   initGame() {
     return {
+      board: this.initBoard(STARTING_SQUARE),
       numMoves: 0,
-      moves: [],
-      currentKnightPosition: STARTING_SQUARE,
-      board: this.initBoard(STARTING_SQUARE)
+      moves: [STARTING_SQUARE],
+      currentSquare: STARTING_SQUARE
     };
   }
 
@@ -38,10 +38,26 @@ class App extends Component {
       const board = JSON.parse(JSON.stringify(this.state.board));
       board[square].visited = true;
       this.setState({
-        currentKnightPosition: square,
-        board: [...board]
+        board,
+        currentSquare: square,
+        moves: [...this.state.moves, square],
+        numMoves: this.state.numMoves + 1
       });
     }
+  }
+
+  handleUndoClick() {
+    const prevSquare = this.state.moves[this.state.moves.length - 2];
+    const board = JSON.parse(JSON.stringify(this.state.board));
+    const moves = [...this.state.moves];
+    moves.pop();
+    board[this.state.currentSquare].visited = false;
+    this.setState({
+      board,
+      currentSquare: prevSquare,
+      moves,
+      numMoves: this.state.numMoves - 1
+    })
   }
 
   resetGame() {
@@ -52,12 +68,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <span>Moves: {this.state.numMoves}</span>
         <Board
           handleSquareClick={this.handleSquareClick}
-          knightPos={this.state.currentKnightPosition}
+          knightPos={this.state.currentSquare}
           board={this.state.board}
         />
         <div>
+          <button onClick={this.handleUndoClick.bind(this)} disabled={this.state.numMoves < 1}>Undo</button>
           <button onClick={this.resetGame.bind(this)}>Reset</button>
         </div>
       </div>
