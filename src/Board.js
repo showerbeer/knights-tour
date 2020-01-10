@@ -13,7 +13,7 @@ const Board = (props) => {
         const className = `square ${isVisited ? 'visited' : square.colour} ${isLegalMove ? 'potential': ''}`
         return (
           <div
-            onClick={handleSquareClick(square.squareNumber)}
+            onClick={() => handleSquareClick(square.squareNumber)}
             key={square.squareNumber}
             className={className}
           >
