@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Board from './Board';
 import { STARTING_SQUARE } from './constants';
-import { isLight } from './utils';
+import { isLight, getLegalMoves, arrayIncludes } from './utils';
 import './App.css';
 
 class App extends Component {
@@ -11,21 +11,18 @@ class App extends Component {
   }
 
   componentDidMount(){
-    document.addEventListener('keyup', this.handleKeyUp(this), false);
+    document.addEventListener('keyup', this.handleKeyUp.bind(this), false);
   }
   componentWillUnmount(){
-    document.removeEventListener('keyup', this.handleKeyUp(this), false);
+    document.removeEventListener('keyup', this.handleKeyUp.bind(this), false);
   }
 
-  initBoard(startingSquare) {
+  initBoard() {
     const board = [];
     for (let i = 0; i < 64; i++) {
       board.push({
         colour: isLight(i) ? 'white' : 'black',
-        visited: i === startingSquare,
-        currentSquare: i === startingSquare,
-        squareNumber: i,
-        highlighted: false
+        squareNumber: i
       });
     }
     return board;
@@ -33,38 +30,39 @@ class App extends Component {
 
   initGame() {
     return {
-      board: this.initBoard(STARTING_SQUARE),
-      numMoves: 0,
+      board: this.initBoard(),
       moves: [STARTING_SQUARE],
+      legalMoves: getLegalMoves(STARTING_SQUARE),
       currentSquare: STARTING_SQUARE
     };
   }
 
-  handleSquareClick = (isLegalMove, square) => () => {
-    if (isLegalMove) {
-      const board = JSON.parse(JSON.stringify(this.state.board));
-      board[square].visited = true;
-      this.setState({
-        board,
-        currentSquare: square,
-        moves: [...this.state.moves, square],
-        numMoves: this.state.numMoves + 1
-      });
+  handleSquareClick(square){
+    if (arrayIncludes(this.state.legalMoves, square)) {
+      return this.moveKnight;
     }
+  }
+
+  moveKnight(square) {
+    const legalMoves = getLegalMoves(square).filter(s => !this.state.moves.includes(s));
+    this.setState({
+      ...this.state,
+      currentSquare: square,
+      legalMoves,
+      moves: [...this.state.moves, square],
+    });
   }
   
   undo() {
-    if(this.state.numMoves > 0) {
+    if(this.state.moves.length > 1) {
       const prevSquare = this.state.moves[this.state.moves.length - 2];
-      const board = JSON.parse(JSON.stringify(this.state.board));
-      const moves = [...this.state.moves];
-      moves.pop();
-      board[this.state.currentSquare].visited = false;
+      const moves = this.state.moves.slice(0, -1);
+      const legalMoves = getLegalMoves(prevSquare).filter(s => !moves.includes(s));
       this.setState({
-        board,
+        ...this.state,
         currentSquare: prevSquare,
         moves,
-        numMoves: this.state.numMoves - 1
+        legalMoves,
       })
     }
   }
@@ -73,13 +71,16 @@ class App extends Component {
     this.undo();
   }
 
-  handleKeyUp = (context) => (e) => {
+  handleKeyUp = (e) => {
     if(e.key === 'z' && e.ctrlKey) {
-      context.undo();
+      this.undo();
     } else if(e.key === 'r' && e.ctrlKey && e.altKey) {
       this.resetGame();
     } else if(e.keyCode >= 49 && e.key <= 56) {
-      // handle keypress of 1-8 for selecting squares
+      const square = this.state.legalMoves[e.key-1];
+      if(arrayIncludes(this.state.legalMoves, square)) {
+        this.moveKnight(square);
+      }
     }
   }
 
@@ -91,15 +92,17 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <span>Moves: {this.state.numMoves}</span>
+        <span>Moves: {this.state.moves.length}</span>
         <button onClick={this.handleUndoClick.bind(this)} disabled={this.state.numMoves < 1}>Undo</button>
         <span>(Ctrl+z)</span>
         <button onClick={this.resetGame.bind(this)}>Reset</button>
         <span>(Ctrl+Alt+R)</span>
         <Board
-          handleSquareClick={this.handleSquareClick}
+          handleSquareClick={this.handleSquareClick.bind(this)}
           knightPos={this.state.currentSquare}
           board={this.state.board}
+          moves={this.state.moves}
+          legalMoves={this.state.legalMoves}
         />
       </div>
     )

@@ -16,5 +16,5 @@ export const squareDist = (a, b) => {
 }
 
 export const getLegalMoves = (s) => {
-    return [s - 6, s - 10, s - 15, s - 17, s + 6, s + 10, s + 15, s + 17].filter(x => x >= 0 && x < 64 && squareDist(s, x) <= 2);
+    return [s - 17, s - 15, s - 10, s - 6, s + 6, s + 10, s + 15, s + 17].filter(x => x >= 0 && x < 64 && squareDist(s, x) <= 2);
 }
