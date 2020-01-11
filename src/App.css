@@ -1,32 +1,37 @@
-.App {
-    @media all and (min-width: 700px) {
+@media only screen and (min-width: 701px) {
+    .App {
         padding-top: 10px;
-        max-width: 700px;
+        max-width: 480px;
         margin: 0 auto;
     }
-}
-
-.chessboard {
-    width: 100%;
-    @media all and (min-width: 700px) {
-        width: 640px;
-        height: 640px;
-        border: 30px solid #333;
+    .chessboard {
+        width: 480px;
+        height: 480px;
+        border: 15px solid #333;
+        margin: 0 auto;
+    }
+    .square {
+        width: 60px;
+        height: 60px;
+        font-size: 30px;
+        box-sizing: border-box;
+        text-align: center;
+        display: table-cell;
+        vertical-align: middle;
     }
 }
 
-.square {
-    box-sizing: border-box;
-    float: left;
-    width: 12vw;
-    height: 12vw;
-    text-align: center;
-    display: table-cell;
-    vertical-align: middle;
-    @media all and (min-width: 700px) {
-        width: 80px;
-        height: 80px;
-        font-size: 50px;
+@media only screen and (max-width: 700px) {
+    .chessboard {
+        width: 100%;
+    }
+    .square {
+        box-sizing: border-box;
+        width: 12vw;
+        height: 12vw;
+        text-align: center;
+        display: table-cell;
+        vertical-align: middle;
     }
 }
 
@@ -44,12 +49,6 @@
 
 .visited {
     background-color: grey;
-}
-
-.moveCounter {
-    position: absolute;
-    top: 0px;
-    right: 0px;
 }
 
 .gameplay {

@@ -1,0 +1,10 @@
+.square {
+    position: relative;
+}
+
+.tileNumber {
+    position: absolute;
+    font-size: small;
+    top: 0;
+    left: 0;
+}
