@@ -10,6 +10,7 @@ class App extends Component {
     this.moveKnight = this.moveKnight.bind(this);
     this.undo = this.undo.bind(this);
     this.handleUndoClick = this.handleUndoClick.bind(this);
+    this.resetGame = this.resetGame.bind(this);
   }
 
   componentDidMount() {
@@ -106,11 +107,11 @@ class App extends Component {
       <div className="App">
         <div className="container">
           <div className="gameplay">
-            <button className="btn warning" onClick={this.handleUndoClick.bind(this)} disabled={this.state.numMoves < 1}>Undo</button>
+            <button className="btn warning" onClick={this.handleUndoClick} disabled={this.state.numMoves < 1}>Undo</button>
             <small>(Ctrl+z)</small>
           </div>
           <div className="gameplay">
-            <button className="btn danger" onClick={this.resetGame.bind(this)}>Reset</button>
+            <button className="btn danger" onClick={this.resetGame}>Reset</button>
             <small>(Ctrl+Alt+R)</small>
           </div>
         </div>
