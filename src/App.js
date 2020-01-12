@@ -10,14 +10,15 @@ class App extends Component {
     this.moveKnight = this.moveKnight.bind(this);
     this.undo = this.undo.bind(this);
     this.handleUndoClick = this.handleUndoClick.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('keyup', this.handleKeyUp.bind(this), false);
+    document.addEventListener('keyup', this.handleKeyUp, false);
   }
   componentWillUnmount() {
-    document.removeEventListener('keyup', this.handleKeyUp.bind(this), false);
+    document.removeEventListener('keyup', this.handleKeyUp, false);
   }
 
   initBoard() {
