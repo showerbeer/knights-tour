@@ -9,7 +9,6 @@ class App extends Component {
     this.state = this.initGame();
     this.moveKnight = this.moveKnight.bind(this);
     this.undo = this.undo.bind(this);
-    this.handleUndoClick = this.handleUndoClick.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
@@ -75,11 +74,7 @@ class App extends Component {
     }
   }
 
-  handleUndoClick() {
-    this.undo();
-  }
-
-  handleKeyUp = (e) => {
+  handleKeyUp(e) {
     if (e.key === 'z' && e.ctrlKey) {
       this.undo();
     } else if (e.key === 'r' && e.ctrlKey && e.altKey) {
@@ -108,7 +103,7 @@ class App extends Component {
       <div className="App">
         <div className="container">
           <div className="gameplay">
-            <button className="btn warning" onClick={this.handleUndoClick} disabled={this.state.numMoves < 1}>Undo</button>
+            <button className="btn warning" onClick={this.undo} disabled={this.state.numMoves < 1}>Undo</button>
             <small>(Ctrl+z)</small>
           </div>
           <div className="gameplay">
