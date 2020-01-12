@@ -1,1 +1,0 @@
-export const STARTING_SQUARE = 56;

@@ -20,9 +20,9 @@ const Board = (props) => {
                 key={square.squareNumber}
                 className={className}
               >
-                {square.squareNumber === knightPos && <span>&#9822;</span>}
+                {square.squareNumber === knightPos && <span className="current noselect">&#9822;</span>}
                 {isLegalMove && ++legalMove}
-                <div className="tileNumber">{square.tile}</div>
+                <div className="tileNumber noselect">{square.tile}</div>
               </div>
             )
           })}

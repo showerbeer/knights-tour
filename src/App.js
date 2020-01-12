@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Board from './Board';
-import { STARTING_SQUARE } from './constants';
 import { isLight, getLegalMoves, arrayIncludes } from './utils';
 import './App.css';
 
@@ -38,11 +37,12 @@ class App extends Component {
   }
 
   initGame() {
+    const startingSquare = Math.floor(Math.random() * 64);
     return {
       board: this.initBoard(),
-      moves: [STARTING_SQUARE],
-      legalMoves: getLegalMoves(STARTING_SQUARE),
-      currentSquare: STARTING_SQUARE
+      moves: [startingSquare],
+      legalMoves: getLegalMoves(startingSquare),
+      currentSquare: startingSquare
     };
   }
 
@@ -104,13 +104,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="gameplay">
-          <button className="warning" onClick={this.handleUndoClick.bind(this)} disabled={this.state.numMoves < 1}>Undo</button>
-          <button className="danger" onClick={this.resetGame.bind(this)}>Reset</button>
-        </div>
-        <div className="gameplay">
-          <span>(Ctrl+z)</span>
-          <span>(Ctrl+Alt+R)</span>
+        <div className="container">
+          <div className="gameplay">
+            <button className="btn warning" onClick={this.handleUndoClick.bind(this)} disabled={this.state.numMoves < 1}>Undo</button>
+            <small>(Ctrl+z)</small>
+          </div>
+          <div className="gameplay">
+            <button className="btn danger" onClick={this.resetGame.bind(this)}>Reset</button>
+            <small>(Ctrl+Alt+R)</small>
+          </div>
         </div>
         <Board
           handleSquareClick={this.moveKnight}
