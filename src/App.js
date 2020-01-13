@@ -89,7 +89,7 @@ class App extends Component {
 
   moveNumberToText(move) {
     const file = String.fromCharCode((Math.floor(move % 8) + 97))
-    const rank = ((move) % 8) + 1;
+    const rank = 8 - Math.floor(move / 8);
     return `${file}${rank}`;
   }
 
