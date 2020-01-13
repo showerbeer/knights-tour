@@ -22,7 +22,7 @@ const Board = (props) => {
               >
                 {square.squareNumber === knightPos && <span className="current noselect">&#9822;</span>}
                 {isLegalMove && ++legalMove}
-                <div className="tileNumber noselect">{square.tile}</div>
+                {/* <div className="tileNumber noselect">{square.tile}</div> */}
               </div>
             )
           })}
