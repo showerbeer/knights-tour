@@ -1,5 +1,8 @@
 .square {
     position: relative;
+    background-size: 100%;
+    height: 100%;
+    width: 100%;
 }
 
 .tileNumber {
@@ -7,4 +10,39 @@
     font-size: small;
     top: 0;
     left: 0;
+}
+
+.grabbable {
+    cursor: grab;
+    background-size: 100%;
+    height: 100%;
+    width: 100%;
+}
+
+.black {
+    background-color: #769656;
+}
+
+.white {
+    background-color: #eeeed2;
+}
+
+.legal-move {
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.legal-move-inner {
+    margin: 0 auto;
+    cursor: pointer;
+    background-color:#000;
+    border-radius: 100%;
+    height: 40%;
+    opacity: .2;
+    width: 40%;
+}
+
+.visited {
+    background-color: grey;
 }

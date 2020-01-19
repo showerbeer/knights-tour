@@ -1,42 +1,23 @@
-@media only screen and (min-width: 701px) {
-    .App {
-        padding-top: 10px;
-        max-width: 500px;
-        margin: 0 auto;
-    }
 
-    .chessboard {
-        width: 480px;
-        height: 480px;
-        border: 5px solid #333;
-        margin: 0 auto;
-    }
-
-    .square {
-        width: 60px;
-        height: 60px;
-        font-size: 30px;
-        box-sizing: border-box;
-        text-align: center;
-        display: table-cell;
-        vertical-align: middle;
-    }
+.chessboard {
+    width: 100%;
+    box-sizing: border-box;
 }
 
-@media only screen and (max-width: 700px) {
-    .chessboard {
-        width: 100%;
-    }
-
-    .square {
-        box-sizing: border-box;
-        width: 12.5vw;
-        height: 12vw;
-        text-align: center;
-        display: table-cell;
-        vertical-align: middle;
-    }
+.rank {
+    width: 100%;
+    box-sizing: border-box;
 }
+
+.square {
+    box-sizing: border-box;
+    width: 12.5vw;
+    height: 12.5vw;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
 
 .container {
     display: flex;
@@ -44,43 +25,11 @@
 
 .noselect {
     -webkit-touch-callout: none;
-    /* iOS Safari */
     -webkit-user-select: none;
-    /* Safari */
     -khtml-user-select: none;
-    /* Konqueror HTML */
     -moz-user-select: none;
-    /* Old versions of Firefox */
     -ms-user-select: none;
-    /* Internet Explorer/Edge */
     user-select: none;
-    /* Non-prefixed version, currently
-                                    supported by Chrome, Opera and Firefox */
-}
-
-.current {
-    cursor: default;
-}
-
-.black {
-    background-color: #b58863;
-}
-
-.white {
-    background-color: #f0d9b5;
-}
-
-.potential {
-    border: 4px dashed #857945;
-    cursor: pointer;
-}
-
-.potential:hover {
-    background-color: #857945;
-}
-
-.visited {
-    background-color: grey;
 }
 
 .gameplay {

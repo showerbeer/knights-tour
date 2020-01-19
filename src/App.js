@@ -47,10 +47,7 @@ class App extends Component {
     };
   }
 
-  moveKnight(square, isLegalMove) {
-    if (isLegalMove === false) {
-      return;
-    }
+  moveKnight(square) {
     const legalMoves = getLegalMoves(square).filter(s => !this.state.moves.includes(s));
     this.setState({
       ...this.state,
