@@ -27,7 +27,7 @@ const Board = (props) => {
                       <div className="grabbable noselect" style={{ backgroundImage: `url(${WhiteKnight})` }}>&nbsp;</div>
                     </Draggable>} */}
                     {square.squareNumber === knightPos &&
-                      <div className="square noselect" style={{ backgroundImage: `url(${WhiteKnight})` }}>&nbsp;</div>}
+                      <div className="square" style={{ backgroundImage: `url(${WhiteKnight})` }}>&nbsp;</div>}
                   </div>
                 )
             )
