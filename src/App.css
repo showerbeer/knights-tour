@@ -45,7 +45,7 @@
 }
 
 .btn {
-    font-size: x-large;
+    /* font-size: x-large;
     margin: 5px 10px 0 10px;
     padding: 10px 10px;
     position: relative;
@@ -53,7 +53,27 @@
     outline: none;
     border-radius: 2px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
-    transition: background-color .3s;
+    transition: background-color .3s; */
+    background-color:#dbd9d7;
+    border-bottom: 1px solid#a7a6a2;
+    color:#666463;
+}
+
+.icons {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    height: 26.5px;
+    width: 26.5px;
+}
+
+.chevron-left::before {
+    content: "\002C";
+}
+
+.redo::before {
+    content: "\1F22";
 }
 
 .danger {

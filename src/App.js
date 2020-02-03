@@ -100,12 +100,18 @@ class App extends Component {
       <div className="App">
         <div className="container">
           <div className="gameplay">
-            <button className="btn warning" onClick={this.undo} disabled={this.state.numMoves < 1}>Undo</button>
-            <small>(Ctrl+z)</small>
+            <button className="btn" onClick={this.undo} disabled={this.state.numMoves < 1}>
+              <div className="icons">
+                <span className="chevron-left">&nbsp;</span>
+              </div>
+            </button>
           </div>
           <div className="gameplay">
-            <button className="btn danger" onClick={this.resetGame}>Reset</button>
-            <small>(Ctrl+Alt+R)</small>
+            <button className="btn" onClick={this.resetGame}>
+              <div className="icons">
+                <span className="redo">&nbsp;</span>
+              </div>
+            </button>
           </div>
         </div>
         <Board
