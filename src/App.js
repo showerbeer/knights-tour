@@ -1,26 +1,20 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Board from './Board';
 import { isLight, getLegalMoves, arrayIncludes } from './utils';
 import './App.css';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = this.initGame();
-    this.moveKnight = this.moveKnight.bind(this);
-    this.undo = this.undo.bind(this);
-    this.handleKeyUp = this.handleKeyUp.bind(this);
-    this.resetGame = this.resetGame.bind(this);
-  }
+const App = () => {
+  const [state, setState] = useState(initGame());
 
-  componentDidMount() {
-    document.addEventListener('keyup', this.handleKeyUp, false);
-  }
-  componentWillUnmount() {
-    document.removeEventListener('keyup', this.handleKeyUp, false);
-  }
+  useEffect(() => {
+    document.addEventListener('keyup', handleKeyUp, false);
 
-  initBoard() {
+    return () => {
+      document.removeEventListener('keyup', handleKeyUp, false);
+    }
+  })
+
+  function initBoard() {
     const board = [];
     for (let rank = 0; rank < 8; rank++) {
       board.push([]);
@@ -37,36 +31,36 @@ class App extends Component {
     return board;
   }
 
-  initGame() {
+  function initGame() {
     const startingSquare = Math.floor(Math.random() * 64);
     return {
-      board: this.initBoard(),
+      board: initBoard(),
       moves: [startingSquare],
       legalMoves: getLegalMoves(startingSquare),
       currentSquare: startingSquare
     };
   }
 
-  moveKnight(square, isLegalMove) {
+  function moveKnight(square, isLegalMove) {
     if (isLegalMove === false) {
       return;
     }
-    const legalMoves = getLegalMoves(square).filter(s => !this.state.moves.includes(s));
-    this.setState({
-      ...this.state,
+    const legalMoves = getLegalMoves(square).filter(s => !state.moves.includes(s));
+    setState({
+      ...state,
       currentSquare: square,
       legalMoves,
-      moves: [...this.state.moves, square],
+      moves: [...state.moves, square],
     });
   }
 
-  undo() {
-    if (this.state.moves.length > 1) {
-      const prevSquare = this.state.moves[this.state.moves.length - 2];
-      const moves = this.state.moves.slice(0, -1);
+  function undo() {
+    if (state.moves.length > 1) {
+      const prevSquare = state.moves[state.moves.length - 2];
+      const moves = state.moves.slice(0, -1);
       const legalMoves = getLegalMoves(prevSquare).filter(s => !moves.includes(s));
-      this.setState({
-        ...this.state,
+      setState({
+        ...state,
         currentSquare: prevSquare,
         moves,
         legalMoves,
@@ -74,59 +68,57 @@ class App extends Component {
     }
   }
 
-  handleKeyUp(e) {
+  function handleKeyUp(e) {
     if (e.key === 'z' && e.ctrlKey) {
-      this.undo();
+      undo();
     } else if (e.key === 'r' && e.ctrlKey && e.altKey) {
-      this.resetGame();
+      resetGame();
     } else if (e.keyCode >= 49 && e.key <= 56) {
-      const square = this.state.legalMoves[e.key - 1];
-      if (arrayIncludes(this.state.legalMoves, square)) {
-        this.moveKnight(square);
+      const square = state.legalMoves[e.key - 1];
+      if (arrayIncludes(state.legalMoves, square)) {
+        moveKnight(square);
       }
     }
   }
 
-  moveNumberToText(move) {
+  function moveNumberToText(move) {
     const file = String.fromCharCode((Math.floor(move % 8) + 97))
     const rank = 8 - Math.floor(move / 8);
     return `${file}${rank}`;
   }
 
-  resetGame() {
-    const newGame = this.initGame();
-    this.setState(newGame);
+  function resetGame() {
+    const newGame = initGame();
+    setState(newGame);
   }
 
-  render() {
-    return (
-      <div className="App">
-        <div className="container">
-          <div className="gameplay">
-            <button className="btn warning" onClick={this.undo} disabled={this.state.numMoves < 1}>Undo</button>
-            <small>(Ctrl+z)</small>
-          </div>
-          <div className="gameplay">
-            <button className="btn danger" onClick={this.resetGame}>Reset</button>
-            <small>(Ctrl+Alt+R)</small>
-          </div>
+  return (
+    <div className="App">
+      <div className="container">
+        <div className="gameplay">
+          <button className="btn warning" onClick={undo} disabled={state.numMoves < 1}>Undo</button>
+          <small>(Ctrl+z)</small>
         </div>
-        <Board
-          handleSquareClick={this.moveKnight}
-          knightPos={this.state.currentSquare}
-          board={this.state.board}
-          moves={this.state.moves}
-          legalMoves={this.state.legalMoves}
-        />
-        <div className="bottom">
-
+        <div className="gameplay">
+          <button className="btn danger" onClick={resetGame}>Reset</button>
+          <small>(Ctrl+Alt+R)</small>
         </div>
-        <span>Number of moves: {this.state.moves.length}</span>
-        <br />
-        <span>Move order: {this.state.moves.map(m => this.moveNumberToText(m)).join(', ')}</span>
       </div>
-    )
-  }
+      <Board
+        handleSquareClick={moveKnight}
+        knightPos={state.currentSquare}
+        board={state.board}
+        moves={state.moves}
+        legalMoves={state.legalMoves}
+      />
+      <div className="bottom">
+
+      </div>
+      <span>Number of moves: {state.moves.length}</span>
+      <br />
+      <span>Move order: {state.moves.map(m => moveNumberToText(m)).join(', ')}</span>
+    </div>
+  )
 }
 
 export default App;
