@@ -1,5 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { arrayIncludes } from './utils';
 import './Board.css';
 
@@ -31,14 +29,6 @@ const Board = (props) => {
 
     </div>
   )
-}
-
-Board.propTypes = {
-  board: PropTypes.arrayOf(PropTypes.array),
-  knightPos: PropTypes.number,
-  handleSquareClick: PropTypes.func,
-  moves: PropTypes.array,
-  legalMoves: PropTypes.array
 }
 
 export default Board;
