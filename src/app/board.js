@@ -1,5 +1,4 @@
 import { arrayIncludes } from './utils';
-import './Board.css';
 
 const Board = (props) => {
   const { board, knightPos, handleSquareClick, moves, legalMoves } = props;
