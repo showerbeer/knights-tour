@@ -1,7 +1,7 @@
+"use client"
 import React, { useEffect, useState } from 'react';
-import Board from './Board';
+import Board from './board';
 import { isLight, getLegalMoves, arrayIncludes } from './utils';
-import './App.css';
 
 const App = () => {
   const [state, setState] = useState(initGame());

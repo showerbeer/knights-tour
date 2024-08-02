@@ -1,15 +1,23 @@
-# `create-preact`
 
-<h2 align="center">
-  <img height="256" width="256" src="./src/assets/preact.svg">
-</h2>
 
-<h3 align="center">Get started using Preact and Vite!</h3>
+The [Knight's Tour](https://en.wikipedia.org/wiki/Knight%27s_tour) is a chess puzzle where the aim is to find a sequence of moves for the Knight such that every square on the board is visited only once. Backtracking is not allowed.
 
-## Getting Started
+## Dev instructions
 
--   `npm run dev` - Starts a dev server at http://localhost:5173/
+First, run the development server:
 
--   `npm run build` - Builds for production, emitting to `dist/`. Prerenders app to static HTML
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
--   `npm run preview` - Starts a server at http://localhost:4173/ to test production build locally
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
